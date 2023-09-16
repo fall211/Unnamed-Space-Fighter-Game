@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dhu4ispdl7ir1"]
+
+[ext_resource type="Sky" uid="uid://bequ4o2clswwy" path="res://Assets/Resources/sky_space.tres" id="1_gjht5"]
+
+[sub_resource type="Environment" id="Environment_h0vau"]
+background_mode = 2
+background_energy_multiplier = 1.64
+sky = ExtResource("1_gjht5")
+sky_custom_fov = 65.0
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+
+[node name="Space" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_h0vau")

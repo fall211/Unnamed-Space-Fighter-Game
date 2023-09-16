@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://30yrwgux6sat"]
+
+[ext_resource type="PackedScene" uid="uid://dhu4ispdl7ir1" path="res://Scenes/Space.tscn" id="1_ueoox"]
+[ext_resource type="PackedScene" uid="uid://b6gxrgxw50yww" path="res://Scenes/Player.tscn" id="2_uoxgp"]
+[ext_resource type="PackedScene" uid="uid://bo3gj67wtj4it" path="res://Scenes/Obstacles.tscn" id="3_ncwaj"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Space" parent="." instance=ExtResource("1_ueoox")]
+
+[node name="Player" parent="." instance=ExtResource("2_uoxgp")]
+
+[node name="Obstacles" parent="." instance=ExtResource("3_ncwaj")]

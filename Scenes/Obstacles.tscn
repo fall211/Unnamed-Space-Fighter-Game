@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://bo3gj67wtj4it"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_y26rh"]
+
+[node name="Obstacles" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.1832, 0, 0)
+mesh = SubResource("BoxMesh_y26rh")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.79293, 1.83719)
+mesh = SubResource("BoxMesh_y26rh")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.62936, -10.0316, 1.83719)
+mesh = SubResource("BoxMesh_y26rh")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.62936, 0, -22.8328)
+mesh = SubResource("BoxMesh_y26rh")

@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://b6gxrgxw50yww"]
+
+[ext_resource type="ArrayMesh" uid="uid://cjkrr0ye6j11y" path="res://Assets/Models/Ships/guns.res" id="1_gi8qu"]
+[ext_resource type="ArrayMesh" uid="uid://cv8gwf1djfo3m" path="res://Assets/Models/Ships/ship.res" id="2_sesre"]
+[ext_resource type="Script" path="res://Assets/Scripts/ShipContoller.gd" id="3_5lsbf"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_vrflo"]
+radius = 1.035
+
+[node name="Player" type="Node3D"]
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+motion_mode = 1
+script = ExtResource("3_5lsbf")
+speed = 10.0
+boost_multiplier = 2.0
+side_acceleration = 0.01
+side_deceleration = 0.02
+max_side_speed = 1.0
+sensitivity = 0.1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+shape = SubResource("SphereShape3D_vrflo")
+
+[node name="GunsModel" type="MeshInstance3D" parent="CharacterBody3D"]
+transform = Transform3D(-1, 3.48787e-16, -8.74228e-08, 3.48787e-16, 1, -3.48787e-16, 8.74228e-08, -3.48787e-16, -1, 2.08165e-12, 2.08165e-12, 0.15)
+mesh = ExtResource("1_gi8qu")
+skeleton = NodePath("../..")
+
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D"]
+transform = Transform3D(1, -3.79186e-16, 3.4746e-16, 3.4746e-16, 0.996195, 0.0871557, -3.79186e-16, -0.0871557, 0.996195, 2.08165e-12, 0.75, 2.08165e-12)
+current = true
+fov = 90.0
+size = 5.0
+
+[node name="Ship" type="MeshInstance3D" parent="CharacterBody3D"]
+transform = Transform3D(-1, 3.48787e-16, -8.74228e-08, 3.48787e-16, 1, -3.48787e-16, 8.74228e-08, -3.48787e-16, -1, 2.08165e-12, 2.08165e-12, 1)
+layers = 512
+mesh = ExtResource("2_sesre")
+skeleton = NodePath("../..")
