@@ -1,11 +1,44 @@
-[gd_scene load_steps=5 format=3 uid="uid://b6gxrgxw50yww"]
+[gd_scene load_steps=13 format=3 uid="uid://b6gxrgxw50yww"]
 
 [ext_resource type="ArrayMesh" uid="uid://cjkrr0ye6j11y" path="res://Assets/Models/Ships/guns.res" id="1_gi8qu"]
 [ext_resource type="ArrayMesh" uid="uid://cv8gwf1djfo3m" path="res://Assets/Models/Ships/ship.res" id="2_sesre"]
 [ext_resource type="Script" path="res://Assets/Scripts/ShipContoller.gd" id="3_5lsbf"]
+[ext_resource type="Script" path="res://Assets/Scripts/Guns.gd" id="3_731eq"]
+[ext_resource type="Script" path="res://Assets/Scripts/PlayerAudio.gd" id="5_ax7rf"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_vrflo"]
 radius = 1.035
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_1a3gd"]
+noise_type = 2
+frequency = 0.0101
+fractal_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_50c0r"]
+seamless = true
+normalize = false
+noise = SubResource("FastNoiseLite_1a3gd")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p3ut1"]
+albedo_color = Color(1, 0.345098, 0.262745, 1)
+emission_enabled = true
+emission = Color(1, 0.141176, 0.0980392, 1)
+emission_energy_multiplier = 2.84
+emission_texture = SubResource("NoiseTexture2D_50c0r")
+
+[sub_resource type="BoxMesh" id="BoxMesh_2kgmn"]
+material = SubResource("StandardMaterial3D_p3ut1")
+size = Vector3(0.05, 0.05, 2)
+
+[sub_resource type="Curve" id="Curve_c8q6v"]
+min_value = -200.0
+max_value = 200.0
+_data = [Vector2(0, 1), 0.0, 213.699, 0, 0, Vector2(1, 200), 192.374, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_4s40e"]
+offsets = PackedFloat32Array(0, 0.242424, 0.57197, 1)
+colors = PackedColorArray(0.658824, 0, 0, 1, 0.411803, 0.0136648, 0.388086, 1, 0.508015, 0.184258, 0.291244, 1, 1, 1, 1, 1)
 
 [node name="Player" type="Node3D"]
 
@@ -19,14 +52,6 @@ side_deceleration = 0.02
 max_side_speed = 1.0
 sensitivity = 0.1
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
-shape = SubResource("SphereShape3D_vrflo")
-
-[node name="GunsModel" type="MeshInstance3D" parent="CharacterBody3D"]
-transform = Transform3D(-1, 3.48787e-16, -8.74228e-08, 3.48787e-16, 1, -3.48787e-16, 8.74228e-08, -3.48787e-16, -1, 2.08165e-12, 2.08165e-12, 0.15)
-mesh = ExtResource("1_gi8qu")
-skeleton = NodePath("../..")
-
 [node name="Camera3D" type="Camera3D" parent="CharacterBody3D"]
 transform = Transform3D(1, -3.79186e-16, 3.4746e-16, 3.4746e-16, 0.996195, 0.0871557, -3.79186e-16, -0.0871557, 0.996195, 2.08165e-12, 0.75, 2.08165e-12)
 current = true
@@ -38,3 +63,56 @@ transform = Transform3D(-1, 3.48787e-16, -8.74228e-08, 3.48787e-16, 1, -3.48787e
 layers = 512
 mesh = ExtResource("2_sesre")
 skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 4.02214e-24, 0, 4.02214e-24, 1, 0, 0, 0, 1, -2.42861e-16, 0, 0)
+shape = SubResource("SphereShape3D_vrflo")
+
+[node name="Guns" type="Node3D" parent="CharacterBody3D"]
+script = ExtResource("3_731eq")
+
+[node name="ParticlesRight" type="CPUParticles3D" parent="CharacterBody3D/Guns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.871, -0.0824125, -1.766)
+emitting = false
+amount = 1
+one_shot = true
+mesh = SubResource("BoxMesh_2kgmn")
+direction = Vector3(2.08165e-12, 2.08165e-12, -1)
+spread = 0.0
+gravity = Vector3(2.08165e-12, 2.08165e-12, 2.08165e-12)
+initial_velocity_min = 25.0
+initial_velocity_max = 25.0
+linear_accel_min = 350.0
+linear_accel_max = 350.0
+linear_accel_curve = SubResource("Curve_c8q6v")
+color = Color(1, 0.290196, 0.345098, 1)
+color_ramp = SubResource("Gradient_4s40e")
+
+[node name="ParticlesLeft" type="CPUParticles3D" parent="CharacterBody3D/Guns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.871, -0.082, -1.766)
+emitting = false
+amount = 1
+one_shot = true
+mesh = SubResource("BoxMesh_2kgmn")
+direction = Vector3(2.08165e-12, 2.08165e-12, -1)
+spread = 0.0
+gravity = Vector3(2.08165e-12, 2.08165e-12, 2.08165e-12)
+initial_velocity_min = 25.0
+initial_velocity_max = 25.0
+linear_accel_min = 350.0
+linear_accel_max = 350.0
+linear_accel_curve = SubResource("Curve_c8q6v")
+color = Color(1, 0.290196, 0.345098, 1)
+color_ramp = SubResource("Gradient_4s40e")
+
+[node name="GunsModel" type="MeshInstance3D" parent="CharacterBody3D/Guns"]
+transform = Transform3D(-1, 3.48787e-16, -8.74228e-08, 3.48787e-16, 1, -3.48787e-16, 8.74228e-08, -3.48787e-16, -1, 2.08165e-12, 2.08165e-12, 0.15)
+mesh = ExtResource("1_gi8qu")
+skeleton = NodePath("../../..")
+
+[node name="PlayerAudioController" type="Node3D" parent="CharacterBody3D"]
+script = ExtResource("5_ax7rf")
+
+[node name="GunsAudio" type="AudioStreamPlayer" parent="CharacterBody3D/PlayerAudioController"]
+
+[node name="ShipAudio" type="AudioStreamPlayer" parent="CharacterBody3D/PlayerAudioController"]
