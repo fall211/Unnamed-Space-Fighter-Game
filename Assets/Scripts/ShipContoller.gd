@@ -20,13 +20,15 @@ var side_str: float = 0
 var boost_str: float = 1.0
 
 var is_engine_on : bool = false
+var is_boosting : bool = false
 signal engine_toggled(on : bool)
-
+signal boost_toggled(on : bool)
 
 
 func _ready() -> void:
 	mouse_sens = sensitivity
 	connect("engine_toggled", toggle_engine)
+	connect("boost_toggled", toggle_boost)
 
 func _physics_process(delta: float) -> void:
 
@@ -35,7 +37,7 @@ func _physics_process(delta: float) -> void:
 	if is_engine_on:
 		velocity = Vector3(0.0, 0.0, 0.0)
 
-		if Input.is_action_pressed("boost"):
+		if is_boosting:
 			boost_str += 0.1
 			boost_str = clamp(boost_str, 1.0, boost_multiplier)
 		else:
@@ -63,8 +65,15 @@ func _physics_process(delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("toggle_engine"):
-		engine_toggled.emit(!is_engine_on)
+	if not is_boosting:
+		if Input.is_action_just_pressed("toggle_engine"):
+			engine_toggled.emit(!is_engine_on)
+	if is_engine_on:
+		if Input.is_action_just_pressed("boost"):
+			boost_toggled.emit(true)
+		if Input.is_action_just_released("boost"):
+			boost_toggled.emit(false)
+
 
 	if event is InputEventMouseMotion:
 		if not is_engine_on:
@@ -98,3 +107,6 @@ func _process(_delta: float) -> void:
 func toggle_engine(on : bool):
 	is_engine_on = on
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED if is_engine_on else Input.MOUSE_MODE_VISIBLE
+
+func toggle_boost(on : bool):
+	is_boosting = on

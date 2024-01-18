@@ -18,6 +18,7 @@ func _ready() -> void:
 	var player = get_parent()
 	ship_audio = get_node("ShipAudio")
 	player.connect("engine_toggled", engine)
+	player.connect("boost_toggled", boost)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -36,3 +37,9 @@ func engine(on : bool):
 		ship_audio.volume_db = -5.0
 		ship_audio.stream = engine_off_audio
 	ship_audio.play()
+
+func boost(on : bool):
+	if on:
+		ship_audio.volume_db = 5.0
+	else:
+		ship_audio.volume_db = 0.0
